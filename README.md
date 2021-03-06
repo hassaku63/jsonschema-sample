@@ -1,6 +1,6 @@
 # README
 
-JSONSchema の練習。
+JSON Schema の練習。
 
 AWS Step Functions の [GetExecutionHistory](https://docs.aws.amazon.com/step-functions/latest/apireference/API_GetExecutionHistory.html#API_GetExecutionHistory_RequestSyntax) API の戻り値（の一部）を JSONSchema で検証する
 
@@ -8,6 +8,8 @@ AWS Step Functions の [GetExecutionHistory](https://docs.aws.amazon.com/step-fu
 
 ```bash
 pip install -r requirements.txt
+
+cd path/to/example/dir
 
 jsonschema -i data.json schema.json
 ```
