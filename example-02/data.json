@@ -1,5 +1,5 @@
 {
-    "nextToken": "aaaaaa",
+    "token": "aaaaaa",
     "events": [
         {
             "timestamp": 1000000000.000,

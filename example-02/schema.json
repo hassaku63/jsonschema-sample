@@ -67,7 +67,7 @@
 
     "type": "object",
     "properties": {
-        "nextToken": {"type": "string"},
+        "token": {"type": "string"},
         "events": {
             "type": "array",
             "items": {
