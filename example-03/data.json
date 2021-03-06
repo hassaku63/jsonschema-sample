@@ -1,0 +1,28 @@
+{
+    "token": "aaaaaa",
+    "events": [
+        {
+            "timestamp": 1000000000.000,
+            "type": "ExecutionStarted",
+            "id": 1,
+            "previousEventId": 0,
+            "executionStartedEventDetails": {
+                "input": "{}",
+                "inputDetails": {
+                    "truncated": false
+                },
+                "roleArn": "arn:aws:iam::123456789012:role/service-role/stateMachineRole"
+            }
+        },
+        {
+            "timestamp": 1000000000.000,
+            "type": "ExecutionFailed",
+            "id": 2,
+            "previousEventId": 1,
+            "executionFailedEventDetails": {
+                "error": "ValueError",
+                "cause": "error cause"
+            }
+        }
+    ]
+}

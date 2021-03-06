@@ -1,0 +1,115 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "definitions": {
+        "id": {
+            "type": "number"
+        },
+        "previousEventId": {
+            "type": "number"
+        },
+        "timestamp": {
+            "type": "number"
+        },
+        "type": {
+            "type": "string"
+        },
+        "inputDetails": {
+            "type": "object",
+            "properties": {
+                "truncated": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "outputDetails": {
+            "type": "object",
+            "properties": {
+                "truncated": {
+                    "type": "boolean"
+                }
+            }
+        },
+
+        "commonEventObject": {
+            "type": "object",
+            "properties": {
+                "id": {"$ref": "#/definitions/id"},
+                "previousEventId": {"$ref": "#/definitions/previousEventId"},
+                "timestamp": {"$ref": "#/definitions/timestamp"},
+                "type": {"$ref": "#/definitions/type"}
+            }
+        },
+
+        "executionStartedEventDetails": {
+            "type": "object",
+            "properties": {
+                "input": {"type": "string"},
+                "inputDetails": {"$ref": "#/definitions/inputDetails"},
+                "roleArn": {"type": "string"}
+            },
+            "required": [
+                "input", "inputDetails", "roleArn"
+            ]
+        },
+        "executionSucceededEventDetails": {
+            "type": "object",
+            "properties": {
+                "cause": {"type": "string"},
+                "error": {"type": "string"}
+            },
+            "required": [
+                "cause", "error"
+            ]
+        },
+        "executionFailedEventDetails": {
+            "type": "object",
+            "properties": {
+                "cause": {"type": "string"},
+                "error": {"type": "string"}
+            },
+            "required": [
+                "cause", "error"
+            ]
+        },
+
+        "executionStarted": {
+            "allOf": [
+                {"$ref": "#/definitions/commonEventObject"},
+                {
+                    "type": "object",
+                    "properties": {
+                        "executionStartedEventDetails": {"$ref": "#/definitions/executionStartedEventDetails"}
+                    }
+                }
+            ]
+        },
+        "executionSucceeded": {
+            "type": "object",
+            "allOf": [
+                {"$ref": "#/definitions/commonEventObject"},
+                {
+                    "properties": {
+                        "executionSucceededEventDetails": {"$ref": "#/definitions/executionSucceededEventDetails"}
+                    }
+                }
+            ]
+        }
+        
+    },
+
+    "type": "object",
+    "properties": {
+        "token": {"type": "string"},
+        "events": {
+            "type": "array",
+            "items": {
+                "anyOf": [
+                    {"$ref": "#/definitions/executionStarted"},
+                    {"$ref": "#/definitions/executionSucceeded"},
+                    {"$ref": "#/definitions/executionFailed"}
+                ]
+            }
+        }
+    }
+}
+
