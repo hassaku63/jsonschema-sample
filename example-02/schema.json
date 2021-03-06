@@ -65,8 +65,17 @@
         }
     },
 
-    "allOf": [
-        {"$ref": "#/definitions/executionStarted"}
-    ]
+    "type": "object",
+    "properties": {
+        "nextToken": {"type": "string"},
+        "events": {
+            "type": "array",
+            "items": {
+                "oneOf": [
+                    {"$ref": "#/definitions/executionStarted"}
+                ]
+            }
+        }
+    }
 }
 

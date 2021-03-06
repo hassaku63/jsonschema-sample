@@ -1,0 +1,71 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "definitions": {
+        "id": {
+            "type": "number"
+        },
+        "previousEventId": {
+            "type": "number"
+        },
+        "timestamp": {
+            "type": "number"
+        },
+        "type": {
+            "type": "string"
+        },
+        "inputDetails": {
+            "type": "object",
+            "properties": {
+                "truncated": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "outputDetails": {
+            "type": "object",
+            "properties": {
+                "truncated": {
+                    "type": "boolean"
+                }
+            }
+        },
+
+        "commonEventObject": {
+            "type": "object",
+            "properties": {
+                "id": {"$ref": "#/definitions/id"},
+                "previousEventId": {"$ref": "#/definitions/previousEventId"},
+                "timestamp": {"$ref": "#/definitions/timestamp"},
+                "type": {"$ref": "#/definitions/type"}
+            }
+        },
+
+        "executionStartedEventDetails": {
+            "type": "object",
+            "properties": {
+                "input": {"type": "string"},
+                "inputDetails": {"$ref": "#/definitions/inputDetails"},
+                "roleArn": {"type": "string"}
+            },
+            "required": [
+                "input", "inputDetails", "roleArn"
+            ]
+        },
+
+        "executionStarted": {
+            "allOf": [
+                {"$ref": "#/definitions/commonEventObject"},
+                {
+                    "type": "object",
+                    "properties": {
+                        "executionStartedEventDetails": {"$ref": "#/definitions/executionStartedEventDetails"}
+                    }
+                }
+            ]
+        }
+    },
+
+    "allOf": [
+        {"$ref": "#/definitions/executionStarted"}
+    ]
+}

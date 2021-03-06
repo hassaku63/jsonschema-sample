@@ -1,0 +1,18 @@
+{
+    "nextToken": "aaaaaa",
+    "events": [
+        {
+            "timestamp": 1000000000.000,
+            "type": "ExecutionStarted",
+            "id": 1,
+            "previousEventId": 0,
+            "executionStartedEventDetails": {
+                "input": "{}",
+                "inputDetails": {
+                    "truncated": false
+                },
+                "roleArn": "arn:aws:iam::123456789012:role/service-role/stateMachineRole"
+            }
+        }
+    ]
+}
