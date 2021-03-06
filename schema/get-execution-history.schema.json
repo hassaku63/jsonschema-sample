@@ -1,0 +1,655 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "title": "get-execution-history-response",
+
+    "definitions": {
+        "id": {
+            "type": "number"
+        },
+        "previousEventId": {
+            "type": "number"
+        },
+        "timestamp": {
+            "type": "number"
+        },
+        "type": {
+            "type": "string"
+        },
+        "inputDetails": {
+            "type": "object",
+            "properties": {
+                "truncated": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "outputDetails": {
+            "type": "object",
+            "properties": {
+                "truncated": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "activityFailedEventDetails": {
+            "type": "object",
+            "properties": {
+                "cause": {"type": "string"},
+                "error": {"type": "string"}
+            },
+            "required": [
+                "cause", "error"
+            ]
+        },
+        "activityScheduleFailedEventDetails": {
+            "type": "object",
+            "properties": {
+                "cause": {"type": "string"},
+                "error": {"type": "string"}
+            },
+            "required": [
+                "cause", "error"
+            ]
+        },
+        "activityScheduledEventDetails": {
+            "type": "object",
+            "properties": {
+                "heartbeatInSeconds": {"type": "number"},
+                "input": {"type": "string"},
+                "inputDetails": {"$ref": "#/definitions/inputDetails"},
+                "resource": {"type": "string"},
+                "timeoutInSeconds": {"type": "number"}
+            },
+            "required": [
+                "heartbeatInSeconds", "input", "inputDetails", "resource", "timeoutInSeconds"
+            ]
+        },
+        "activityStartedEventDetails": {
+            "type": "object",
+            "properties": {
+                "workerName": {"type": "string"}
+            },
+            "required": [
+                "workerName"
+            ]
+        },
+        "activitySucceededEventDetails": {
+            "type": "object",
+            "properties": {
+                "output": {"type": "string"},
+                "outputDetails": {"$ref": "#/definitions/outputDetails"}
+            },
+            "required": [
+                "output", "outputDetails"
+            ]
+        },
+        "activityTimedOutEventDetails": {
+            "type": "object",
+            "properties": {
+                "cause": {"type": "string"},
+                "error": {"type": "string"}
+            },
+            "required": [
+                "cause", "error"
+            ]
+        },
+        "executionAbortedEventDetails": {
+            "type": "object",
+            "properties": {
+                "cause": {"type": "string"},
+                "error": {"type": "string"}
+            },
+            "required": [
+                "cause", "error"
+            ]
+        },
+        "executionFailedEventDetails": {
+            "type": "object",
+            "properties": {
+                "cause": {"type": "string"},
+                "error": {"type": "string"}
+            },
+            "required": [
+                "cause", "error"
+            ]
+        },
+        "executionStartedEventDetails": {
+            "type": "object",
+            "properties": {
+                "input": {"type": "string"},
+                "inputDetails": {"$ref": "#/definitions/inputDetails"},
+                "roleArn": {"type": "string"}
+            },
+            "required": [
+                "input", "inputDetails", "roleArn"
+            ]
+        },
+        "executionSucceededEventDetails": {
+            "type": "object",
+            "properties": {
+                "cause": {"type": "string"},
+                "error": {"type": "string"}
+            },
+            "required": [
+                "cause", "error"
+            ]
+        },
+        "executionTimedOutEventDetails": {
+            "type": "object",
+            "properties": {
+                "cause": {"type": "string"},
+                "error": {"type": "string"}
+            },
+            "required": [
+                "cause", "error"
+            ]
+        },
+        "lambdaFunctionFailedEventDetails": {
+            "type": "object",
+            "properties": {
+                "cause": {"type": "string"},
+                "error": {"type": "string"}
+            },
+            "required": [
+                "cause", "error"
+            ]
+        },
+        "lambdaFunctionScheduleFailedEventDetails": {
+            "type": "object",
+            "properties": {
+                "cause": {"type": "string"},
+                "error": {"type": "string"}
+            },
+            "required": [
+                "cause", "error"
+            ]
+        },
+        "lambdaFunctionScheduledEventDetails": {
+            "type": "object",
+            "properties": {
+                "input": {"type": "string"},
+                "inputDetails": {"$ref": "#/definitions/inputDetails"},
+                "resource": {"type": "string"},
+                "timeoutInSeconds": {"type": "number"}
+            },
+            "required": [
+                "input", "inputDetails", "resource", "timeoutInSeconds"
+            ]
+        },
+        "lambdaFunctionStartFailedEventDetails": {
+            "type": "object",
+            "properties": {
+                "cause": {"type": "string"},
+                "error": {"type": "string"}
+            },
+            "required": [
+                "cause", "error"
+            ]
+        },
+        "lambdaFunctionSucceededEventDetails": {
+            "type": "object",
+            "properties": {
+                "output": {"type": "string"},
+                "outputDetails": {"$ref": "#/definitions/outputDetails"}
+            },
+            "required": [
+                "output", "outputDetails"
+            ]
+        },
+        "lambdaFunctionTimedOutEventDetails": {
+            "type": "object",
+            "properties": {
+                "cause": {"type": "string"},
+                "error": {"type": "string"}
+            },
+            "required": [
+                "cause", "error"
+            ]
+        },
+        "mapIterationAbortedEventDetails": {
+            "type": "object",
+            "properties": {
+                "index": {"type": "number"},
+                "name": {"type": "string"}
+            },
+            "required": [
+                "index", "name"
+            ]
+        },
+        "mapIterationFailedEventDetails": {
+            "type": "object",
+            "properties": {
+                "index": {"type": "number"},
+                "name": {"type": "string"}
+            },
+            "required": [
+                "index", "name"
+            ]
+        },
+        "mapIterationStartedEventDetails": {
+            "type": "object",
+            "properties": {
+                "index": {"type": "number"},
+                "name": {"type": "string"}
+            },
+            "required": [
+                "index", "name"
+            ]
+        },
+        "mapIterationSucceededEventDetails": {
+            "type": "object",
+            "properties": {
+                "index": {"type": "number"},
+                "name": {"type": "string"}
+            },
+            "required": [
+                "index", "name"
+            ]
+        },
+        "mapStateStartedEventDetails": {
+            "type": "object",
+            "properties": {
+                "length": {"type": "number"}
+            },
+            "required": [
+                "length"
+            ]
+        },
+        "stateEnteredEventDetails": {
+            "type": "object",
+            "properties": {
+                "input": {"type": "string"},
+                "inputDetails": {"$ref": "#/definitions/inputDetails"},
+                "name": {"type": "string"}
+            },
+            "required": [
+                "input", "inputDetails", "name"
+            ]
+        },
+        "stateExitedEventDetails": {
+            "type": "object",
+            "properties": {
+                "output": {"type": "string"},
+                "outputDetails": {"$ref": "#/definitions/outputDetails"}
+            },
+            "required": [
+                "output", "outputDetails"
+            ]
+        },
+        "taskFailedEventDetails": {
+            "type": "object",
+            "properties": {
+                "cause": {"type": "string"},
+                "error": {"type": "string"},
+                "resource": {"type": "string"},
+                "resourceType": {"type": "string"}
+            },
+            "required": [
+                "cause", "error", "resource", "resourceType"
+            ]
+        },
+        "taskScheduledEventDetails": {
+            "type": "object",
+            "properties": {
+                "heartbeatInSeconds": {"type": "number"},
+                "parameters": {"type": "string"},
+                "region": {"type": "string"},
+                "resource": {"type": "string"},
+                "resourceType": {"type": "string"},
+                "timeoutInSeconds": {"type": "number"}
+            },
+            "required": [
+                "heartbeatInSeconds", "parameters", "region", "resource", "resourceType", "timeoutInSeconds"
+            ]
+        },
+        "taskStartFailedEventDetails": {
+            "type": "object",
+            "properties": {
+                "cause": {"type": "string"},
+                "error": {"type": "string"},
+                "resource": {"type": "string"},
+                "resourceType": {"type": "string"}
+            },
+            "required": [
+                "cause", "error", "resource", "resourceType"
+            ]
+        },
+        "taskStartedEventDetails": {
+            "type": "object",
+            "properties": {
+                "resource": {"type": "string"},
+                "resourceType": {"type": "string"}
+            },
+            "required": [
+                "resource", "resourceType"
+            ]
+        },
+        "taskSubmitFailedEventDetails": {
+            "type": "object",
+            "properties": {
+                "cause": {"type": "string"},
+                "error": {"type": "string"},
+                "resource": {"type": "string"},
+                "resourceType": {"type": "string"}
+            },
+            "required": [
+                "cause", "error", "resource", "resourceType"
+            ]
+        },
+        "taskSubmittedEventDetails": {
+            "type": "object",
+            "properties": {
+                "output": {"type": "string"},
+                "outputDetails": {"$ref": "#/definitions/outputDetails"},
+                "resource": {"type": "string"},
+                "resourceType": {"type": "string"}
+            },
+            "required": [
+                "output", "outputDetails", "resource", "resourceType"
+            ]
+        },
+        "taskSucceededEventDetails": {
+            "type": "object",
+            "properties": {
+                "output": {"type": "string"},
+                "outputDetails": {"$ref": "#/definitions/outputDetails"},
+                "resource": {"type": "string"},
+                "resourceType": {"type": "string"}
+            },
+            "required": [
+                "output", "outputDetails", "resource", "resourceType"
+            ]
+        },
+        "taskTimedOutEventDetails": {
+            "type": "object",
+            "properties": {
+                "cause": {"type": "string"},
+                "error": {"type": "string"},
+                "resource": {"type": "string"},
+                "resourceType": {"type": "string"}
+            },
+            "required": [
+                "cause", "error", "resource", "resourceType"
+            ]
+        },
+
+        "commonEventObject": {
+            "type": "object",
+            "properties": {
+                "id": {"$ref": "#/definitions/id"},
+                "previousEventId": {"$ref": "#/definitions/previousEventId"},
+                "timestamp": {"$ref": "#/definitions/timestamp"},
+                "type": {"$ref": "#/definitions/type"}
+            }
+        },
+        "activityFailed": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "activityFailed": {"$ref": "#/definitions/activityFailedEventDetails"}
+            }
+        },
+        "activityScheduleFailed": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "activityScheduleFailed": {"$ref": "#/definitions/activityScheduleFailedEventDetails"}
+            }
+        },
+        "activityScheduled": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "activityScheduled": {"$ref": "#/definitions/activityScheduledEventDetails"}
+            }
+        },
+        "activityStarted": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "activityStarted": {"$ref": "#/definitions/activityStartedEventDetails"}
+            }
+        },
+        "activitySucceeded": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "activitySucceeded": {"$ref": "#/definitions/activitySucceededEventDetails"}
+            }
+        },
+        "activityTimedOut": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "activityTimedOut": {"$ref": "#/definitions/activityTimedOutEventDetails"}
+            }
+        },
+        "executionAborted": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "executionAborted": {"$ref": "#/definitions/executionAbortedEventDetails"}
+            }
+        },
+        "executionFailed": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "executionFailed": {"$ref": "#/definitions/executionFailedEventDetails"}
+            }
+        },
+        "executionStarted": {
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "executionStartedEventDetails": {"$ref": "#/definitions/executionStartedEventDetails"}
+            }
+        },
+        "executionSucceeded": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "executionSucceededEventDetails": {"$ref": "#/definitions/executionSucceededEventDetails"}
+            }
+        },
+        "executionTimedOut": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "executionTimedOutEventDetails": {"$ref": "#/definitions/executionTimedOutEventDetails"}
+            }
+        },
+        "lambdaFunctionFailed": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "lambdaFunctionFailedEventDetails": {"$ref": "#/definitions/lambdaFunctionFailedEventDetails"}
+            }
+        },
+        "lambdaFunctionScheduleFailed": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "lambdaFunctionScheduleFailedEventDetails": {"$ref": "#/definitions/lambdaFunctionScheduleFailedEventDetails"}
+            }
+        },
+        "lambdaFunctionScheduled": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "lambdaFunctionScheduledEventDetails": {"$ref": "#/definitions/lambdaFunctionScheduledEventDetails"}
+            }
+        },
+        "lambdaFunctionStartFailed": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "lambdaFunctionStartFailedEventDetails": {"$ref": "#/definitions/lambdaFunctionStartFailedEventDetails"}
+            }
+        },
+        "lambdaFunctionSucceeded": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "lambdaFunctionSucceededEventDetails": {"$ref": "#/definitions/lambdaFunctionSucceededEventDetails"}
+            }
+        },
+        "lambdaFunctionTimedOut": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "lambdaFunctionTimedOutEventDetails": {"$ref": "#/definitions/lambdaFunctionTimedOutEventDetails"}
+            }
+        },
+        "mapIterationAborted": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "mapIterationAbortedEventDetails": {"$ref": "#/definitions/mapIterationAbortedEventDetails"}
+            }
+        },
+        "mapIterationFailed": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "mapIterationFailedEventDetails": {"$ref": "#/definitions/mapIterationFailedEventDetails"}
+            }
+        },
+        "mapIterationStarted": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "mapIterationStartedEventDetails": {"$ref": "#/definitions/mapIterationStartedEventDetails"}
+            }
+        },
+        "mapIterationSucceeded": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "mapIterationSucceededEventDetails": {"$ref": "#/definitions/mapIterationSucceededEventDetails"}
+            }
+        },
+        "mapStateStarted": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "mapStateStartedEventDetails": {"$ref": "#/definitions/mapStateStartedEventDetails"}
+            }
+        },
+        "stateEntered": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "stateEnteredEventDetails": {"$ref": "#/definitions/stateEnteredEventDetails"}
+            }
+        },
+        "stateExited": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "stateExitedEventDetails": {"$ref": "#/definitions/stateExitedEventDetails"}
+            }
+        },
+        "taskFailed": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "taskFailedEventDetails": {"$ref": "#/definitions/taskFailedEventDetails"}
+            }
+        },
+        "taskScheduled": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "taskScheduledEventDetails": {"$ref": "#/definitions/taskScheduledEventDetails"}
+            }
+        },
+        "taskStartFailed": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "taskStartFailedEventDetails": {"$ref": "#/definitions/taskStartFailedEventDetails"}
+            }
+        },
+        "taskStarted": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "taskStartedEventDetails": {"$ref": "#/definitions/taskStartedEventDetails"}
+            }
+        },
+        "taskSubmitFailed": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "taskSubmitFailedEventDetails": {"$ref": "#/definitions/taskSubmitFailedEventDetails"}
+            }
+        },
+        "taskSubmitted": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "taskSubmittedEventDetails": {"$ref": "#/definitions/taskSubmittedEventDetails"}
+            }
+        },
+        "taskSucceeded": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "taskSucceededEventDetails": {"$ref": "#/definitions/taskSucceededEventDetails"}
+            }
+        },
+        "taskTimedOut": {
+            "type": "object",
+            "allOf": [{"$ref": "#/definitions/commonEventObject"}],
+            "properties": {
+                "taskTimedOutEventDetails": {"$ref": "#/definitions/taskTimedOutEventDetails"}
+            }
+        }
+    },
+
+    "type": "object",
+    "properties": {
+        "token": {"type": "string"},
+        "events": {
+            "type": "array",
+            "minLength": 1,
+            "items": {
+                "anyOf": [
+                    {"$ref": "#/definitions/activityFailed"},
+                    {"$ref": "#/definitions/activityScheduleFailed"},
+                    {"$ref": "#/definitions/activityScheduled"},
+                    {"$ref": "#/definitions/activityStarted"},
+                    {"$ref": "#/definitions/activitySucceeded"},
+                    {"$ref": "#/definitions/activityTimedOut"},
+                    {"$ref": "#/definitions/executionAborted"},
+                    {"$ref": "#/definitions/executionFailed"},
+                    {"$ref": "#/definitions/executionStarted"},
+                    {"$ref": "#/definitions/executionSucceeded"},
+                    {"$ref": "#/definitions/executionTimedOut"},
+                    {"$ref": "#/definitions/lambdaFunctionFailed"},
+                    {"$ref": "#/definitions/lambdaFunctionScheduleFailed"},
+                    {"$ref": "#/definitions/lambdaFunctionScheduled"},
+                    {"$ref": "#/definitions/lambdaFunctionStartFailed"},
+                    {"$ref": "#/definitions/lambdaFunctionSucceeded"},
+                    {"$ref": "#/definitions/lambdaFunctionTimedOut"},
+                    {"$ref": "#/definitions/mapIterationAborted"},
+                    {"$ref": "#/definitions/mapIterationFailed"},
+                    {"$ref": "#/definitions/mapIterationStarted"},
+                    {"$ref": "#/definitions/mapIterationSucceeded"},
+                    {"$ref": "#/definitions/mapStateStarted"},
+                    {"$ref": "#/definitions/stateEntered"},
+                    {"$ref": "#/definitions/stateExited"},
+                    {"$ref": "#/definitions/taskFailed"},
+                    {"$ref": "#/definitions/taskScheduled"},
+                    {"$ref": "#/definitions/taskStartFailed"},
+                    {"$ref": "#/definitions/taskStarted"},
+                    {"$ref": "#/definitions/taskSubmitFailed"},
+                    {"$ref": "#/definitions/taskSubmitted"},
+                    {"$ref": "#/definitions/taskSucceeded"},
+                    {"$ref": "#/definitions/taskTimedOut"}
+                ]
+            }
+        }
+    },
+    "required": ["events"]
+}

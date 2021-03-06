@@ -1,0 +1,74 @@
+{
+    "events": [
+        {
+            "timestamp": 1000000000.000,
+            "type": "ExecutionStarted",
+            "id": 1,
+            "previousEventId": 0,
+            "executionStartedEventDetails": {
+                "input": "{}",
+                "inputDetails": {
+                    "truncated": false
+                },
+                "roleArn": "arn:aws:iam::012345678901:role/service-role/stateMachineRole"
+            }
+        },
+        {
+            "timestamp": 1000000000.000,
+            "type": "TaskStateEntered",
+            "id": 2,
+            "previousEventId": 0,
+            "stateEnteredEventDetails": {
+                "name": "SomeTask",
+                "input": "{}",
+                "inputDetails": {
+                    "truncated": false
+                }
+            }
+        },
+        {
+            "timestamp": 1000000000.000,
+            "type": "TaskScheduled",
+            "id": 3,
+            "previousEventId": 2,
+            "taskScheduledEventDetails": {
+                "resourceType": "lambda",
+                "resource": "invoke",
+                "region": "ap-northeast-1",
+                "parameters": "{}"
+            }
+        },
+        {
+            "timestamp": 1000000000.000,
+            "type": "TaskStarted",
+            "id": 4,
+            "previousEventId": 3,
+            "taskStartedEventDetails": {
+                "resourceType": "lambda",
+                "resource": "invoke"
+            }
+        },
+        {
+            "timestamp": 1000000000.000,
+            "type": "TaskFailed",
+            "id": 5,
+            "previousEventId": 4,
+            "taskFailedEventDetails": {
+                "resourceType": "lambda",
+                "resource": "invoke",
+                "error": "ValueError",
+                "cause": "xxxxx"
+            }
+        },
+        {
+            "timestamp": 1000000000.000,
+            "type": "ExecutionFailed",
+            "id": 6,
+            "previousEventId": 5,
+            "executionFailedEventDetails": {
+                "error": "ValueError",
+                "cause": "xxxxx"
+            }
+        }
+    ]
+}
